@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const Redis = require('redis');
 const app = express();
-const port = (3000);
+const port = 443;
 const { createHash } = require('node:crypto');
 const https = require('https')
 const fs = require('fs')
@@ -11,7 +11,7 @@ https.createServer({
   key: fs.readFileSync('/etc/letsencrypt/archive/kyleechapman.cit270.com/privkey1.pem'),
   cert: fs.readFileSync('/etc/letsencrypt/archive/kyleechapman.cit270.com/cert1.pem'),
   chain: fs.readFileSync('/etc/letsencrypt/archive/kyleechapman.cit270.com/fullchain1.pem')
-}, app).listen(3000, () => {
+}, app).listen(port, () => {
   redisClient.connect(); 
   console.log('Listening...')
 });
