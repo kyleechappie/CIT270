@@ -8,9 +8,9 @@ const https = require('https')
 const fs = require('fs')
 
 https.createServer({
-  key: fs.readFileSync('keys/privkey1.pem'),
-  cert: fs.readFileSync('keys/cert1.pem'),
-  chain: fs.readFileSync('keys/fullchain1.pem')
+  key: fs.readFileSync('/etc/letsencrypt/archive/kyleechapman.cit270.com/privkey1.pem'),
+  cert: fs.readFileSync('/etc/letsencrypt/archive/kyleechapman.cit270.com/cert1.pem'),
+  chain: fs.readFileSync('/etc/letsencrypt/archive/kyleechapman.cit270.com/fullchain1.pem')
 }, app).listen(3000, () => {
   redisClient.connect(); 
   console.log('Listening...')
