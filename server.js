@@ -2,19 +2,19 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const Redis = require('redis');
 const app = express();
-const port = 443;
+const port = 3000;
 const { createHash } = require('node:crypto');
 const https = require('https')
 const fs = require('fs')
 
-https.createServer({
-  key: fs.readFileSync('/etc/letsencrypt/archive/kyleechapman.cit270.com/privkey1.pem'),
-  cert: fs.readFileSync('/etc/letsencrypt/archive/kyleechapman.cit270.com/cert1.pem'),
-  ca: fs.readFileSync('/etc/letsencrypt/archive/kyleechapman.cit270.com/chain1.pem')
-}, app).listen(port, () => {
-  redisClient.connect(); 
-  console.log('Listening...')
-});
+// https.createServer({
+//   key: fs.readFileSync('/etc/letsencrypt/archive/kyleechapman.cit270.com/privkey1.pem'),
+//   cert: fs.readFileSync('/etc/letsencrypt/archive/kyleechapman.cit270.com/cert1.pem'),
+//   ca: fs.readFileSync('/etc/letsencrypt/archive/kyleechapman.cit270.com/chain1.pem')
+// }, app).listen(port, () => {
+//   redisClient.connect(); 
+//   console.log('Listening...')
+// });
 
 app.get('/', (req, res) => {
   res.send('Welcome to my web server ya dork!')
@@ -28,10 +28,10 @@ const redisClient = Redis.createClient({url:'redis://127.0.0.1:6379'});
 
 app.use(bodyParser.json()); //allow json request
 
-//app.listen(port, () => {
-//   redisClient.connect(); //the api server is trying to connect with redis
-//    console.log("listening on port: " + port); //connecting to the database
-//});
+app.listen(port, () => {
+  redisClient.connect(); //the api server is trying to connect with redis
+   console.log("listening on port: " + port); //connecting to the database
+});
 
 app.post('/login',async (req,res)=>{ //async ->
     const loginBody = req.body;
