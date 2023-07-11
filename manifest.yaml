@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
 # This is the name of my deployment
-  name: cit270kyleeservice
+  name: cit270-kylee-service
 # The specification for our deployment
 spec:
 # How many pods?
@@ -11,20 +11,20 @@ spec:
 # Used to identify the pod we want to talk to  
   selector:
     matchLabels:
-      app: cit270kyleeservice
+      app: cit270-kylee-service
 # Template to create containers
   template:
     metadata:
-      name: cit270kyleeservice
+      name: cit270-kylee-service
       labels:
-        app: cit270kyleeservice
+        app: cit270-kylee-service
 # specification for pod        
     spec:
       containers:
 # name of container      
-      - name: cit270kyleeservice
+      - name: cit270-kylee-service
 # Docker image registry      
-        image:    #paste here from artifact registry pls :)
+        image: us-docker.pkg.dev/project-table-1/kylee-token-api/node.js:latest   #paste here from artifact registry pls :)
 # First part of the command to start our API          
         command: ["npm"]
 # Parameters to add to the command        
@@ -49,7 +49,7 @@ metadata:
   name: stedi-kylee-nodeport
 spec:
   selector:
-    app: cit270kyleeservice # this needs to match the name of your deployment (line 6)
+    app: cit270-kylee-service # this needs to match the name of your deployment (line 6)
   type: NodePort
   ports:
     - port: 80
