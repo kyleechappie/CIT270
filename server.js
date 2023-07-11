@@ -24,7 +24,12 @@ app.get('/', (req, res) => {
  // console.log('Listening...')
 //})
 
-const redisClient = Redis.createClient({url:'redis://127.0.0.1:6379'});
+const redisClient = Redis.createClient({
+  socket: {
+    host: 'redis-stedi-kylee',
+    port: '6379'
+  }
+});
 
 app.use(bodyParser.json()); //allow json request
 

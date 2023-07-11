@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
 # This is the name of my deployment
-  name: cit270seanservice
+  name: cit270kyleeservice
 # The specification for our deployment
 spec:
 # How many pods?
@@ -11,26 +11,20 @@ spec:
 # Used to identify the pod we want to talk to  
   selector:
     matchLabels:
-      app: cit270seanservice
+      app: cit270kyleeservice
 # Template to create containers
   template:
     metadata:
-      name: cit270seanservice
+      name: cit270kyleeservice
       labels:
-        app: cit270seanservice
+        app: cit270kyleeservice
 # specification for pod        
     spec:
       containers:
 # name of container      
-      - name: cit270seanservice
+      - name: cit270kyleeservice
 # Docker image registry      
-        image: scmurdock/cit270-fall2022
-# Directories we are making accessible to containers        
-        volumeMounts:
-# Name of the volume        
-        - name: ssl
-# Directory for certificates        
-          mountPath: "/etc/letsencrypt/live/seanmurdock.cit270.com"
+        image:    #paste here from artifact registry pls :)
 # First part of the command to start our API          
         command: ["npm"]
 # Parameters to add to the command        
@@ -48,22 +42,14 @@ spec:
 # Max memory for the pod            
             memory: 600Mi
         imagePullPolicy: Always
-# Create volumes from the secrets        
-      volumes:
-# Name of the secret      
-      - name: ssl
-# Secret       
-        secret: 
-# Secret name you created today        
-          secretName: seancerts
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: stedi-seanmurdock-nodeport
+  name: stedi-kylee-nodeport
 spec:
   selector:
-    app: cit270seanservice # this needs to match the name of your deployment (line 6)
+    app: cit270kyleeservice # this needs to match the name of your deployment (line 6)
   type: NodePort
   ports:
     - port: 80
@@ -72,20 +58,20 @@ spec:
 apiVersion: networking.gke.io/v1
 kind: ManagedCertificate
 metadata:
-  name: stedi-seanmurdock-certificate
+  name: stedi-kylee-certificate
 spec:
   domains:
-    - seanmurdock.cit270.com # this needs to be your domain name from DNS
+    - kyleechapman.cit270.com # this needs to be your domain name from DNS
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: stedi-seanmurdock-ingress
+  name: stedi-kylee-ingress
   annotations:
   # Use this command to find the address name: gcloud compute addresses list 
-    kubernetes.io/ingress.global-static-ip-name: cit270sean
+    kubernetes.io/ingress.global-static-ip-name: cit270kylee
   # needs to match the name of the ManagedCertificate (line 75)
-    networking.gke.io/managed-certificates: stedi-seanmurdock-certificate
+    networking.gke.io/managed-certificates: stedi-kylee-certificate
 spec:
   rules:
   - http:
@@ -95,6 +81,6 @@ spec:
         backend:
           service:
           # needs to match the name of the NodePort Service (line 63)
-            name: stedi-seanmurdock-nodeport
+            name: stedi-kylee-nodeport
             port:
               number: 80
